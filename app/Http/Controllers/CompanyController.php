@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreCompanyRequest;
-
+use Exception;
 class CompanyController extends Controller
 {
     /**
@@ -32,23 +32,34 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-       $validated = $request->validated();
+        try {
+            $validated = $request->validated();
 
-       if($request->hasFile('logo')){
-        $validated['logo'] = $request->file('logo')->store('logos', 'public');
-       }
-       Company::create($validated);
+            if ($request->hasFile('logo')) {
+                $validated['logo'] = $request->file('logo')->store('logos', 'public');
+            }
+            Company::create($validated);
 
-       return redirect()->route('companies.index')->with('success', 'Azienda creata con successo!');
+            return redirect()
+                ->route('companies.index')
+                ->with('success', 'Azienda creata con successo!');
+        } catch (Exception $e) {
+            return back()->withErrors('Errore nella creazione dell\'azienda' . $e->getMessage());
+        }
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $company = Company::find($id);
-        return view('companies.show', compact('company'));
+        try {
+            $company = Company::findOrFail($id);
+            return view('companies.show', compact('company'));
+        } catch (Exception $e) {
+            return redirect()->route('companies.index')->withErrors('Azienda non trovata.');
+        }
     }
 
     /**
@@ -56,8 +67,12 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        $company = Company::find($id);
-        return view('companies.edit', compact('company'));
+        try {
+            $company = Company::findOrFail($id);
+            return view('companies.edit', compact('company'));
+        } catch (Exception $e) {
+            return redirect()->route('companies.index')->withErrors('Azienda non trovata.');
+        }
     }
 
     /**
@@ -65,43 +80,46 @@ class CompanyController extends Controller
      */
     public function update(StoreCompanyRequest $request, string $id)
     {
-        $company = Company::findOrFail($id);
-        $data = $request->validated();
+        try {
+            $company = Company::findOrFail($id);
+            $data = $request->validated();
 
-        if ($request->hasFile('logo')) {
-
-            if ($company->logo) {
-                Storage::disk('public')->delete($company->logo);
+            if ($request->hasFile('logo')) {
+                if ($company->logo) {
+                    Storage::disk('public')->delete($company->logo);
+                }
+                $data['logo'] = $request->file('logo')->store('logos', 'public');
             }
 
-            $data['logo'] = $request->file('logo')->store('logos', 'public');
+            $company->update($data);
+
+            return redirect()
+                ->route('companies.show', $company->id)
+                ->with('status', 'Azienda aggiornata con successo!');
+        } catch (Exception $e) {
+            return back()->withErrors('Errore nell\'aggiornamento dell\'azienda: ' . $e->getMessage());
         }
-
-
-        $company->update($data);
-
-        return redirect()->route('companies.show', $company->id)
-                         ->with('status', 'Azienda aggiornata con successo!');
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
+        try {
+            $company = Company::findOrFail($id);
 
-        $company = Company::findOrFail($id);
+            if ($company->logo) {
+                Storage::disk('public')->delete($company->logo);
+            }
 
+            $company->delete();
 
-        if ($company->logo) {
-            Storage::disk('public')->delete($company->logo);
+            return redirect()
+                ->route('companies.index')
+                ->with('status_delete', 'Azienda eliminata con successo!');
+        } catch (Exception $e) {
+            return back()->withErrors('Errore nell\'eliminazione dell\'azienda: ' . $e->getMessage());
         }
-
-        $company->delete();
-
-        return redirect()->route('companies.index')
-                         ->with('status_delete', 'Azienda eliminata con successo!');
     }
-
 }

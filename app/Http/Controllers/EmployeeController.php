@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Models\Employee;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Exception;
 
 class EmployeeController extends Controller
 {
@@ -16,7 +17,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::paginate(10);
-        return view('employees.index',compact('employees'));
+        return view('employees.index', compact('employees'));
     }
 
     /**
@@ -25,19 +26,23 @@ class EmployeeController extends Controller
     public function create()
     {
         $companies = Company::all();
-        return view('employees.create',compact('companies'));
+        return view('employees.create', compact('companies'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-
     public function store(StoreEmployeeRequest $request)
     {
-        Employee::create($request->validated());
+        try {
+            Employee::create($request->validated());
 
-        return redirect()->route('employees.index')->with('success', 'Dipendente aggiunto con successo!');
-
+            return redirect()
+                ->route('employees.index')
+                ->with('success', 'Dipendente aggiunto con successo!');
+        } catch (Exception $e) {
+            return back()->withErrors('Errore nella creazione del dipendente: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -45,9 +50,14 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        $employee = Employee::find($id);
-      //  dd($employee);
-        return view('employees.show', compact('employee'));
+        try {
+            $employee = Employee::findOrFail($id);
+            return view('employees.show', compact('employee'));
+        } catch (Exception $e) {
+            return redirect()
+                ->route('employees.index')
+                ->withErrors('Dipendente non trovato.');
+        }
     }
 
     /**
@@ -55,23 +65,33 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        $employee = Employee::findOrFail($id);
-        $companies = Company::all();
-        return view('employees.edit', compact('employee', 'companies'));
+        try {
+            $employee = Employee::findOrFail($id);
+            $companies = Company::all();
+            return view('employees.edit', compact('employee', 'companies'));
+        } catch (Exception $e) {
+            return redirect()
+                ->route('employees.index')
+                ->withErrors('Dipendente non trovato.');
+        }
     }
-
 
     /**
      * Update the specified resource in storage.
      */
     public function update(StoreEmployeeRequest $request, string $id)
     {
-        $employee = Employee::findOrFail($id);
-        $data = $request->validated();
-        $employee->update($data);
+        try {
+            $employee = Employee::findOrFail($id);
+            $data = $request->validated();
+            $employee->update($data);
 
-        return redirect()->route('employees.show', $employee->id)
-        ->with('status', 'Dipendente aggiornato con successo!');
+            return redirect()
+                ->route('employees.show', $employee->id)
+                ->with('status', 'Dipendente aggiornato con successo!');
+        } catch (Exception $e) {
+            return back()->withErrors('Errore nell\'aggiornamento del dipendente: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -79,10 +99,15 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-        $employee = Employee::findOrFail($id);
-        $employee->delete();
+        try {
+            $employee = Employee::findOrFail($id);
+            $employee->delete();
 
-        return redirect()->route('employees.index')->with('success_delete', 'Dipendente eliminato con successo!');
-
+            return redirect()
+                ->route('employees.index')
+                ->with('success_delete', 'Dipendente eliminato con successo!');
+        } catch (Exception $e) {
+            return back()->withErrors('Errore nell\'eliminazione del dipendente: ' . $e->getMessage());
+        }
     }
 }
