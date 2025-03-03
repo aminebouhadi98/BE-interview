@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreCompanyRequest;
 use Exception;
+use Illuminate\Support\Str;
 class CompanyController extends Controller
 {
     /**
@@ -36,7 +37,9 @@ class CompanyController extends Controller
             $validated = $request->validated();
 
             if ($request->hasFile('logo')) {
-                $validated['logo'] = $request->file('logo')->store('logos', 'public');
+                $file = $request->file('logo');
+                $filename = 'logo_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                $validated['logo'] = $file->storeAs('logos', $filename, 'public');
             }
             Company::create($validated);
 
@@ -88,7 +91,10 @@ class CompanyController extends Controller
                 if ($company->logo) {
                     Storage::disk('public')->delete($company->logo);
                 }
-                $data['logo'] = $request->file('logo')->store('logos', 'public');
+
+                $file = $request->file('logo');
+                $filename = 'logo_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                $data['logo'] = $file->storeAs('logos', $filename, 'public');
             }
 
             $company->update($data);
@@ -96,7 +102,7 @@ class CompanyController extends Controller
             return redirect()
                 ->route('companies.show', $company->id)
                 ->with('status', 'Azienda aggiornata con successo!');
-        } catch (Exception $e) {
+        }  catch (Exception $e) {
             return back()->withErrors('Errore nell\'aggiornamento dell\'azienda: ' . $e->getMessage());
         }
     }

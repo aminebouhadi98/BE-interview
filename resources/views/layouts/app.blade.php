@@ -20,6 +20,25 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
+        <!-- Flash Messages -->
+        <div class="max-w-7xl mx-auto px-4">
+            @if ($errors->any())
+                <div x-data="{ show: true }" x-show="show"
+                    class="fixed top-4 left-1/2 transform -translate-x-1/2 w-3/4 max-w-xl bg-red-500 text-white p-4 rounded-lg shadow-lg flex justify-between items-center z-50">
+                    <div>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <button @click="show = false" class="ml-4 text-white hover:text-gray-200 text-xl leading-none">
+                        &times;
+                    </button>
+                </div>
+            @endif
+        </div>
+
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white dark:bg-gray-800 shadow">
@@ -34,6 +53,7 @@
             {{ $slot }}
         </main>
     </div>
+
 </body>
 
 </html>
