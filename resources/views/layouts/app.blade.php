@@ -20,7 +20,6 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
-        <!-- Flash Messages -->
         <div class="max-w-7xl mx-auto px-4">
             @if ($errors->any())
                 <div x-data="{ show: true }" x-show="show"

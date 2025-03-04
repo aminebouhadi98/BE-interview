@@ -1,14 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-white leading-tight flex items-center gap-2">
-            <!-- Iconcina a fianco al titolo (facoltativa) -->
             🏢
             <span>{{ __('Dettagli Azienda') }}</span>
         </h2>
     </x-slot>
 
     <div class="max-w-4xl mx-auto mt-8 px-4 sm:mt-12">
-        <!-- Messaggio di stato -->
         @if (session('status'))
             <div x-data="{ show: true }" x-show="show" style="background-color: #10B981;" {{-- #10B981 corrisponde a green-500 --}}
                 class="mb-4 w-full max-w-4xl mx-auto p-4 text-white font-semibold
@@ -23,19 +21,14 @@
             </div>
         @endif
 
-
-        <!-- CARD con gradiente -->
         <div
             class="relative bg-gradient-to-br from-gray-800 via-gray-900 to-black shadow-2xl rounded-xl overflow-hidden">
-            <!-- Decorazione in alto (ad es. un'ellisse semi-trasparente) -->
             <div
                 class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-cyan-400 via-blue-500 to-purple-600">
             </div>
 
-            <!-- Contenuto Card -->
             <div class="relative flex flex-col sm:flex-row items-center sm:items-start gap-8 p-8 text-white">
 
-                <!-- Logo Azienda -->
                 <div class="flex-shrink-0">
                     @if ($company->logo)
                         <img src="{{ asset('storage/' . $company->logo) }}" alt="Logo di {{ $company->name }}"
@@ -48,18 +41,13 @@
                     @endif
                 </div>
 
-                <!-- Dati Azienda -->
                 <div class="flex-1">
-                    <!-- Titolo -->
                     <h3 class="text-4xl font-bold mb-2">{{ $company->name }}</h3>
-
-                    <!-- Email -->
                     <p class="mb-2 text-gray-300">
                         <span class="font-semibold">Email:</span>
                         {{ $company->email ?? 'N/A' }}
                     </p>
 
-                    <!-- Sito Web -->
                     <p class="mb-4 text-gray-300">
                         <span class="font-semibold">Sito Web:</span>
                         @if ($company->website)
@@ -72,15 +60,12 @@
                         @endif
                     </p>
 
-                    <!-- Pulsanti di Azione -->
                     <div class="mt-6 flex flex-wrap gap-3">
                         @if (auth()->user()->is_admin)
-                            <!-- Modifica -->
                             <a href="{{ route('companies.edit', $company) }}"
                                 class="inline-flex items-center px-5 py-2 rounded-md text-white bg-yellow-400 hover:bg-yellow-300 font-semibold transition">
                                 ✏ Modifica
                             </a>
-                            <!-- Elimina -->
                             <form action="{{ route('companies.destroy', $company) }}" method="POST"
                                 onsubmit="return confirm('Sei sicuro di voler eliminare questa azienda?')">
                                 @csrf
@@ -92,7 +77,6 @@
                             </form>
                         @endif
 
-                        <!-- Torna all'elenco -->
                         <a href="{{ route('companies.index') }}"
                             class="inline-flex items-center px-5 py-2 rounded-md font-semibold transition-colors duration-300 text-white bg-gradient-to-r from-green-500 to-cyan-600 hover:from-green-400 hover:to-cyan-500">
                             ↩ Torna all'elenco

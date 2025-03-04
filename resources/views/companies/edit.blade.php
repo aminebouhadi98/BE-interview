@@ -14,7 +14,6 @@
                 @csrf
                 @method('PUT')
 
-                <!-- Nome -->
                 <div>
                     <label for="name" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Nome
@@ -28,7 +27,6 @@
                     @enderror
                 </div>
 
-                <!-- Email -->
                 <div>
                     <label for="email" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Email
@@ -41,8 +39,6 @@
                         <p class="text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-
-                <!-- Logo -->
                 <div>
                     <label for="logo" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Logo (min. 100x100)
@@ -56,7 +52,6 @@
                         <p class="text-red-600 mt-1">{{ $message }}</p>
                     @enderror
 
-                    <!-- Mostra il logo attuale, se presente -->
                     @if ($company->logo)
                         <div class="mt-2">
                             <img src="{{ asset('storage/' . $company->logo) }}" alt="Logo attuale"
@@ -65,7 +60,6 @@
                     @endif
                 </div>
 
-                <!-- Sito Web -->
                 <div>
                     <label for="website" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Sito Web
@@ -79,7 +73,6 @@
                     @enderror
                 </div>
 
-                <!-- Pulsanti -->
                 <div class="flex space-x-3 mt-6">
                     <button type="submit"
                         class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-500 font-semibold transition">

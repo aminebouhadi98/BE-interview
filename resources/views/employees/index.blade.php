@@ -29,8 +29,6 @@
         @endif
 
         <div class="bg-gray-800 shadow-md rounded-lg p-6">
-
-            <!-- Intestazione + Pulsante Aggiungi Dipendente -->
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-white text-lg font-semibold">Lista Dipendenti</h3>
 
@@ -42,7 +40,6 @@
                 @endif
             </div>
 
-            <!-- Tabella Dipendenti -->
             <div class="overflow-hidden rounded-lg shadow-lg">
                 <table class="w-full text-white bg-gray-900 rounded-lg">
                     <thead class="bg-gray-700 text-gray-300 uppercase text-sm">
@@ -58,22 +55,17 @@
                     <tbody class="text-gray-300 text-sm">
                         @foreach ($employees as $employee)
                             <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
-                                <!-- Nome e Cognome -->
                                 <td class="py-4 px-6 font-semibold">{{ $employee->first_name }}</td>
                                 <td class="py-4 px-6 font-semibold">{{ $employee->last_name }}</td>
 
-                                <!-- Azienda -->
                                 <td class="py-4 px-6 text-gray-400">
                                     {{ $employee->company->name ?? 'N/A' }}
                                 </td>
 
-                                <!-- Email -->
                                 <td class="py-4 px-6 text-gray-400">{{ $employee->email }}</td>
 
-                                <!-- Telefono -->
                                 <td class="py-4 px-6 text-gray-400">{{ $employee->phone }}</td>
 
-                                <!-- Azioni -->
                                 <td class="py-4 px-6 text-center">
                                     <div class="flex items-center justify-center space-x-3">
                                         <a href="{{ route('employees.show', $employee) }}"
@@ -106,7 +98,6 @@
                 </table>
             </div>
 
-            <!-- Paginazione -->
             <div class="mt-6 flex justify-center">
                 {{ $employees->links() }}
             </div>

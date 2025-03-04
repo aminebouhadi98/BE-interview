@@ -7,7 +7,7 @@
 
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-8">
         @if (session('status'))
-            <div x-data="{ show: true }" x-show="show" style="background-color: #10B981;" {{-- #10B981 corrisponde a green-500 --}}
+            <div x-data="{ show: true }" x-show="show" style="background-color: #10B981;"
                 class="mb-4 w-full max-w-4xl mx-auto p-4 text-white font-semibold
                 shadow-md rounded-lg flex justify-between items-center
                 transition-colors duration-300">

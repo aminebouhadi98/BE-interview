@@ -6,7 +6,6 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <!-- Messaggio di stato -->
         @if (session('status_delete'))
             <div x-data="{ show: true }" x-show="show"
                 class="mb-4 p-4 bg-green-500 text-white rounded-lg flex justify-between items-center">
@@ -31,7 +30,6 @@
 
         <div class="bg-gray-800 shadow-md rounded-lg p-6">
 
-            <!-- Intestazione + Pulsante Aggiungi Azienda -->
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-white text-lg font-semibold">Lista Aziende</h3>
 
@@ -43,7 +41,6 @@
                 @endif
             </div>
 
-            <!-- Tabella Aziende -->
             <div class="overflow-hidden rounded-lg shadow-lg">
                 <table class="w-full text-white bg-gray-900 rounded-lg">
                     <thead class="bg-gray-700 text-gray-300 uppercase text-sm">
@@ -58,28 +55,22 @@
                     <tbody class="text-gray-300 text-sm">
                         @foreach ($companies as $company)
                             <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
-                                <!-- Logo Azienda -->
                                 <td class="py-4 px-6">
                                     <img src="{{ asset('storage/' . $company->logo) }}"
                                         alt="Logo di {{ $company->name }}"
                                         class="w-14 h-14 rounded-full shadow-md border border-gray-600 object-cover">
                                 </td>
 
-                                <!-- Nome -->
                                 <td class="py-4 px-6 font-semibold">{{ $company->name }}</td>
 
-                                <!-- Email -->
                                 <td class="py-4 px-6 text-gray-400">{{ $company->email }}</td>
 
-                                <!-- Sito Web -->
                                 <td class="py-4 px-6">
                                     <a href="{{ $company->website }}" target="_blank"
                                         class="text-blue-400 hover:text-blue-300 flex items-center space-x-2">
                                         🌐 <span>Visita Sito</span>
                                     </a>
                                 </td>
-
-                                <!-- Azioni -->
                                 <td class="py-4 px-6 text-center">
                                     <div class="flex items-center justify-center space-x-3">
                                         <a href="{{ route('companies.show', $company) }}"
@@ -112,7 +103,6 @@
                 </table>
             </div>
 
-            <!-- Paginazione -->
             <div class="mt-6 flex justify-center">
                 {{ $companies->links() }}
             </div>

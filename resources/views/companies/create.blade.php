@@ -12,7 +12,6 @@
             <form action="{{ route('companies.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
 
-                <!-- Nome -->
                 <div>
                     <label for="name" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Nome
@@ -27,7 +26,6 @@
                     @enderror
                 </div>
 
-                <!-- Email -->
                 <div>
                     <label for="email" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Email
@@ -41,7 +39,6 @@
                     @enderror
                 </div>
 
-                <!-- Logo -->
                 <div>
                     <label for="logo" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Logo (min 100x100)
@@ -55,7 +52,6 @@
                     @enderror
                 </div>
 
-                <!-- Sito Web -->
                 <div>
                     <label for="website" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Sito Web
@@ -69,7 +65,6 @@
                     @enderror
                 </div>
 
-                <!-- Pulsanti -->
                 <div class="flex space-x-3 mt-6">
                     <button type="submit"
                         class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-500 font-semibold transition">

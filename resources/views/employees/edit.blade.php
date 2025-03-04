@@ -13,7 +13,6 @@
                 @csrf
                 @method('PUT')
 
-                <!-- First Name -->
                 <div>
                     <label for="first_name" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Nome
@@ -29,7 +28,6 @@
                     @enderror
                 </div>
 
-                <!-- Last Name -->
                 <div>
                     <label for="last_name" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Cognome
@@ -45,7 +43,6 @@
                     @enderror
                 </div>
 
-                <!-- Email -->
                 <div>
                     <label for="email" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Email
@@ -59,7 +56,6 @@
                     @enderror
                 </div>
 
-                <!-- Telefono -->
                 <div>
                     <label for="phone" class="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         Telefono
@@ -96,9 +92,6 @@
                     @enderror
                 </div>
 
-
-
-                <!-- Pulsanti -->
                 <div class="flex space-x-3 mt-6">
                     <button type="submit"
                         class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-500 font-semibold transition">
